@@ -1,0 +1,4 @@
+{
+  "API_GATEWAY_URL": "https://55wqbhoryd.execute-api.us-east-1.amazonaws.com/prod/vote",
+  "API_GET_RESULTS_URL": "https://55wqbhoryd.execute-api.us-east-1.amazonaws.com/prod/results"
+}

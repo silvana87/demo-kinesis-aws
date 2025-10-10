@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Vota en la Pole Position! 🏎️</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .options button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+        .loading {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none; /* Oculto por defecto */
+            margin: 15px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Vota en la Pole Position! 🏎️</h1>
+        <div class="question">¿Qué servicio de AWS te pareció más interesante?</div>
+        <div class="options">
+            <button onclick="submitVote('Kinesis')">AWS Kinesis</button>
+            <button onclick="submitVote('Lambda')">AWS Lambda</button>
+            <button onclick="submitVote('DynamoDB')">Amazon DynamoDB</button>
+            <button onclick="submitVote('API Gateway')">Amazon API Gateway</button>
+            <button onclick="submitVote('S3')">S3</button>
+        </div>
+        <div id="message"></div>
+        <div class="loading" id="loadingSpinner"></div>
+    </div>
+
+    <script>
+     let API_GATEWAY_URL = '';
+
+     async function loadConfig() {
+         const response = await fetch('config.json');
+         const config = await response.json();
+         API_GATEWAY_URL = config.API_GATEWAY_URL;
+     }
+
+     async function submitVote(voteOption) {
+         if (!API_GATEWAY_URL) {
+             await loadConfig();
+         }
+
+         const messageDiv = document.getElementById('message');
+         const loadingSpinner = document.getElementById('loadingSpinner');
+         messageDiv.textContent = '';
+         loadingSpinner.style.display = 'block';
+
+         try {
+             const response = await fetch(API_GATEWAY_URL, {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ vote: voteOption }),
+             });
+
+             if (response.ok) {
+                 const data = await response.json();
+                 messageDiv.textContent = `¡Gracias por tu voto por ${voteOption}!`;
+                 messageDiv.style.color = 'green';
+             } else {
+                 const errorData = await response.json();
+                 messageDiv.textContent = `Error al votar: ${errorData.message || response.statusText}`;
+                 messageDiv.style.color = 'red';
+             }
+         } catch (error) {
+             console.error('Error al enviar el voto:', error);
+             messageDiv.textContent = 'Hubo un problema de conexión. Intenta de nuevo.';
+             messageDiv.style.color = 'red';
+         } finally {
+             loadingSpinner.style.display = 'none';
+             setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+         }
+     }
+    </script>
+</body>
+</html>
