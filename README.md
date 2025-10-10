@@ -1,4 +1,4 @@
-# 🏎️ Procesamiento de Datos en Tiempo Real con AWS Kinesis — Demo **F1 Voting**
+# 🏎️ Procesamiento de Datos en Tiempo Real con AWS Kinesis — Demo ** Voting**
 
 Este repositorio contiene un **demo de votaciones en tiempo real** construido con servicios serverless de AWS. La idea: mostrar cómo **Amazon Kinesis** permite recibir eventos en streaming y procesarlos en tiempo real, desacoplando productores y consumidores para lograr escalabilidad y resiliencia.
 
@@ -39,13 +39,13 @@ Frontend (S3)
 
 ---
 
-## 🚀 Quick start (paso a paso)
+## 🚀 Guia paso a paso
 
-- 1.- `README_vote.md` — desplegar y configurar `vote.html`.
-- 2.- `README_kinesis_Stream.md` — crear stream en Kinesis (detallado).
-- 3.- `README_lambda_producer.md` — configuración y variables del producer.
-- 4.- `README_lambda_consumer.md` — configuración y tabla DynamoDB.
-- 5.- `README_dashboard.md` — desplegar `dashboard.html` en S3 (CORS, config.json).
+- 1.- [README_vote.md](README_vote.md) — desplegar y configurar `vote.html`.
+- 2.- [README_kinesis_Stream.md](README_kinesis_Stream.md) — crear stream en Kinesis (detallado).
+- 3.- [README_lambda_producer.md](README_lambda_producer.md) — configuración y variables del producer.
+- 4.- [README_lambda_consumer.md](README_lambda_consumer.md) — configuración y tabla DynamoDB.
+- 5.- [README_dashboard.md](README_dashboard.md) — desplegar `dashboard.html` en S3 (CORS, config.json).
 
 
 ---
